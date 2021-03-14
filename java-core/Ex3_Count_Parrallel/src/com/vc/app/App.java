@@ -117,15 +117,22 @@ public class App {
 		
 		public  Map<String, Integer> call() throws Exception {
 			while (!_file.isEmpty()) {
+				FileReader fr =null;
 				try {
 					// thi thoang co exception o day co the la do khon con file de doc??
-					FileReader fr = new FileReader(_file.poll());
+					fr = new FileReader(_file.poll());
 					BufferedReader br = new BufferedReader(fr);
 					_wordCount =CountOneFile.count(_wordCount, br);
-					fr.close();
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				} if (fr != null) {
+			        try {
+			            fr.close();
+			        } catch (IOException ex) {
+			            // ignore ... any significant errors should already have been
+			            // reported via an IOException from the final flush.
+			        }
+			    }
 			}
 	        return _wordCount;
 	    }
