@@ -10,7 +10,6 @@ import java.util.List;
 import com.vc.conn.MySql;
 import com.vc.dao.ICountryDAO;
 import com.vc.entity.Country;
-import com.vc.model.CityModel;
 import com.vc.model.CountryModel;
 
 public class CountryDAO implements ICountryDAO{

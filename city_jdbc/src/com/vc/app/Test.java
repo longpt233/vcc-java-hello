@@ -1,12 +1,8 @@
 package com.vc.app;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import com.mysql.cj.protocol.Warning;
+import java.sql.SQLException; 
 import com.vc.dao.impl.CityDAO;
-import com.vc.dao.impl.CountryDAO;
-import com.vc.model.CityModel;
+import com.vc.dao.impl.CountryDAO; 
 
 public class Test {
 

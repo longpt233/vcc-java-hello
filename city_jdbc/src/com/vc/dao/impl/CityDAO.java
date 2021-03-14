@@ -63,10 +63,13 @@ public class CityDAO implements ICityDAO {
 
 	@Override
 	public List<CityModel>  findBigCityOfCountry() throws SQLException {
-		String sql = "SELECT  id_city,name_city,capital,country.name_country, max(city.population)as population\r\n"
-				+ "FROM	city, country\r\n"
-				+ "WHERE	city.code_country= country.code_country\r\n"
-				+ "GROUP BY name_country;";
+		String sql = "SELECT c2.id_city,c2.name_city,c2.capital,co2.name_country, c2.population\r\n"
+				+ "from (	SELECT co.code_country, max(c.population) as max_population\r\n"
+				+ "		FROM city c\r\n"
+				+ "			join country co on c.code_country = co.code_country\r\n"
+				+ "		GROUP BY co.code_country) t\r\n"
+				+ "join city c2 on c2.code_country = t.code_country and c2.population = t.max_population\r\n"
+				+ "join country co2 on co2.code_country = t.code_country;";
 
 		List<CityModel> results = new ArrayList<>();
 		try {
@@ -95,10 +98,18 @@ public class CityDAO implements ICityDAO {
 
 	@Override
 	public List<CityModel>  findBigCityOfContinent()  throws SQLException{
-		String sql = "SELECT  id_city,name_city,capital,country.name_country, max(city.population)as population\r\n"
-				+ "FROM	city, country\r\n"
-				+ "WHERE	city.code_country= country.code_country\r\n"
-				+ "GROUP BY country.continent;";
+		String sql = "SELECT id_city,name_city,capital,t.name_country, population\r\n"
+				+ "FROM   (SELECT co.continent, co.name_country, max(c.population) max_population \r\n"
+				+ "		FROM city c \r\n"
+				+ "			join country co on c.code_country = co.code_country\r\n"
+				+ "		GROUP BY co.continent) t \r\n"
+				+ "join ( SELECT c2.id_city,c2.name_city,c2.capital,co2.name_country, co2.continent, c2.population\r\n"
+				+ "		FROM city c2,country co2\r\n"
+				+ "       WHERE c2.code_country = co2.code_country\r\n"
+				+ "       ) city_country\r\n"
+				+ "on t.max_population= city_country.population\r\n"
+				+ " AND t.continent=city_country.continent\r\n"
+				+ "";
 
 		List<CityModel> results = new ArrayList<>();
 		try {
@@ -161,13 +172,19 @@ public class CityDAO implements ICityDAO {
 
 	@Override
 	public List<CityModel>  findBigCApitalCityOfContinient() throws SQLException {
-		String sql = "SELECT  id_city,name_city,capital,country.name_country, max(city.population)as population\r\n"
-				+ "				FROM	city, country\r\n"
-				+ "				WHERE	city.code_country= country.code_country\r\n"
-				+ "						AND city.capital=1\r\n"
-				+ "                        \r\n"
-				+ "				GROUP BY country.continent;\r\n"
-				+ "		";
+		String sql = "SELECT id_city,name_city,capital,t.name_country, population\r\n"
+				+ "FROM   (SELECT co.continent, co.name_country, max(c.population) max_population \r\n"
+				+ "		FROM city c \r\n"
+				+ "			join country co on c.code_country = co.code_country\r\n"
+				+ "		WHERE c.capital=1\r\n"
+				+ "		GROUP BY co.continent) t \r\n"
+				+ "join ( SELECT c2.id_city,c2.name_city,c2.capital,co2.name_country, co2.continent, c2.population\r\n"
+				+ "		FROM city c2,country co2\r\n"
+				+ "       WHERE c2.code_country = co2.code_country\r\n"
+				+ "			/*WHERE c.capital=1  de day la sai */\r\n"
+				+ "       ) city_country\r\n"
+				+ "on t.max_population= city_country.population\r\n"
+				+ " AND t.continent=city_country.continent";
 
 		List<CityModel> results = new ArrayList<>();
 		try {
