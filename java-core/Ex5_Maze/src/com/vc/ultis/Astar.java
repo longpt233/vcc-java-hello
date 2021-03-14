@@ -81,7 +81,12 @@ public class Astar{
     public void solve(){
         State goalNode = new State(goal[0], goal[1], 0, goal, null);
         State current = new State(start[0], start[1], 0, goal, null);
+	// priority => state phai impl comperable
         PriorityQueue<State> open = new PriorityQueue<State>();
+	// hashset là con của  hash=> state phai overide ca hashcode va equals
+	    // ngoài ra còn có hashtable, hashmap
+	    // nếu không ghi đè hashcode, mặc dù cùng equals nhưng nó hash ra kết quả khác nhau nên mặc định 2 object khác nhau
+	    // nếu không ghi đè equals , có thế sẽ có obj trùng nhau do hash thiếu trường mà cần  equals chẳng hạn
         HashSet<State> explored = new HashSet<State>();
 
         open.add(current);
