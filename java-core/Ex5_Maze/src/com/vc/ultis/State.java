@@ -39,14 +39,39 @@ public class State implements Comparable<State>{
         return h+g ;
     }
 
-    @Override
-    public boolean equals(Object o){
-        if(o == this) return true;
-        if(!(o instanceof State)) return false;
+//     @Override
+//     public boolean equals(Object o){
+//         if(o == this) return true;
+//         if(!(o instanceof State)) return false;
 
-        State e = (State)o;
-        return this.getX() == e.getX() && this.getY() == e.getY();
-    }
+//         State e = (State)o;
+//         return this.getX() == e.getX() && this.getY() == e.getY();
+//     }
+
+      @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		State other = (State) obj;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
+	}
 
     
 
