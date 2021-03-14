@@ -1,0 +1,136 @@
+CREATE TABLE country(
+	code_country VARCHAR(50),
+    name_country VARCHAR(50),
+    continent VARCHAR(50),
+    suface_area double,
+    population integer,
+    gnp double,
+    PRIMARY KEY(code_country)
+);
+
+CREATE TABLE city(
+	id_city integer,
+    name_city VARCHAR(50),
+    population integer,
+    capital bit,
+    code_country VARCHAR(50),
+    PRIMARY KEY(id_city),
+	FOREIGN KEY (code_country) REFERENCES country(code_country)
+
+);
+
+
+
+INSERT INTO country VALUES ("N1","VietNam","continent_VN",100000,800000,1230000);
+INSERT INTO country VALUES ("N2","Russia","continent_Nga",200000,900000,1234500);
+INSERT INTO country VALUES ("N3","Tokio","continent_nhat",300000,1000000,1234567);
+
+INSERT INTO city VALUES (1,"hanoi",1000,1,"N1");
+INSERT INTO city VALUES (2,"haiduong",2000,0,"N1");
+INSERT INTO city VALUES (3,"moscow",3000,1,"N2");
+INSERT INTO city VALUES (4,"tokyo",4000,1,"N3");
+
+/* test case 1*/ 
+INSERT INTO city VALUES (5,"haiphong",5000,0,"N1");
+
+
+/* test case 2*/ 
+INSERT INTO country VALUES ("N5","VietNam2","continent_VN",1200000,600000,1230);
+INSERT INTO country VALUES ("N6","VietNam3","continent_VN",1300000,900000,1234);
+INSERT INTO city VALUES (6,"hanoi2",100,1,"N5");
+INSERT INTO city VALUES (7,"hanoi3",10000,0,"N5");
+
+/* test 4*/
+INSERT INTO city VALUES (8,"hanoimax_Conti",150000,1,"N6");
+
+/* test bonus*/
+INSERT INTO city VALUES (10,"haiphong2",5000,0,"N1");
+
+/*==============================================================================*/
+/* cau 1 */
+
+SELECT *
+from (	SELECT co.code_country, max(c.population) as max_population
+		FROM city c
+		join country co 
+		GROUP BY co.code_country) t; 
+SELECT *
+from (	SELECT co.code_country, max(c.population) max_population 
+		FROM city c 
+			join country co on c.code_country = co.code_country
+		GROUP BY co.code_country) t;
+        
+        
+SELECT c2.id_city,c2.name_city,c2.capital,co2.name_country, c2.population
+from (	SELECT co.code_country, max(c.population) as max_population
+		FROM city c
+			join country co on c.code_country = co.code_country
+		GROUP BY co.code_country) t
+join city c2 on c2.code_country = t.code_country and c2.population = t.max_population
+join country co2 on co2.code_country = t.code_country;
+
+/* cau 2 */
+
+
+
+SELECT id_city,name_city,capital,t.name_country, population
+FROM   (SELECT co.continent, co.name_country, max(c.population) max_population 
+		FROM city c 
+			join country co on c.code_country = co.code_country
+		GROUP BY co.continent) t 
+join ( SELECT c2.id_city,c2.name_city,c2.capital,co2.name_country, co2.continent, c2.population
+		FROM city c2,country co2
+       WHERE c2.code_country = co2.code_country
+       ) city_country
+on t.max_population= city_country.population
+ AND t.continent=city_country.continent;
+
+
+/* cau 4 */
+
+SELECT id_city,name_city,capital,t.name_country, population
+FROM   (SELECT co.continent, co.name_country, max(c.population) max_population 
+		FROM city c 
+			join country co on c.code_country = co.code_country
+		WHERE c.capital=1
+		GROUP BY co.continent) t 
+join ( SELECT c2.id_city,c2.name_city,c2.capital,co2.name_country, co2.continent, c2.population
+		FROM city c2,country co2
+       WHERE c2.code_country = co2.code_country
+			/*WHERE c.capital=1  de day la sai */
+       ) city_country
+on t.max_population= city_country.population
+ AND t.continent=city_country.continent;
+ 
+ /* bonus tim thanh pho dong dan thu 2 cua country id=  N1 */
+ 
+ 
+SELECT *
+FROM city
+WHERE city.population =(
+
+SELECT max(city.population)
+FROM city
+WHERE  	city.code_country= "N1"
+		AND id_city not in(
+
+				SELECT id_city
+				FROM city
+				WHERE population =(
+
+							SELECT  max(city.population)
+							FROM	city
+							WHERE	city.code_country= "N1"
+						
+						)
+)
+);
+        
+
+
+
+
+
+
+
+
