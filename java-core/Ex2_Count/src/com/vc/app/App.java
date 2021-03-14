@@ -13,7 +13,7 @@ public class App {
 
 	public static void main(String[] args) throws IOException {
 		try {
-			File f1 = new File("E:\\long\\20202\\intern\\java-core\\Ex2_Count\\test.txt");
+			File f1 = new File("D:\\20202\\intern\\java-hello\\java-core\\Ex2_Count\\test.txt");
 			String[] words = null;
 
 			Map<String, Integer> map = new HashMap<String, Integer>();
