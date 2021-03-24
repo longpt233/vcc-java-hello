@@ -1,4 +1,4 @@
-package dp4.composite;
+package dp5.composite;
 
 public class Line implements Shape{
 

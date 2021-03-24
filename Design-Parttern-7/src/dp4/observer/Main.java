@@ -1,4 +1,4 @@
-package dp5.observer;
+package dp4.observer;
 
 public class Main {
 
