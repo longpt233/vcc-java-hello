@@ -41,9 +41,11 @@ public class IdController {
 		return idService.updateIdCard(Integer.parseInt(id), IdCard);
 	}
 
+	// jpa khong cho tra ve . thich thi tu impl trong repo
 	@RequestMapping(value = "/idcard/{id}", method = RequestMethod.DELETE)
 	public void deleteById(@PathVariable("id") String id) {
 		idService.deleteById(Integer.parseInt(id));
+			
 	}
 
 	

@@ -1,72 +1,118 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
     <link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}">
 </head>
-<body>
-<div>
-    <h1 id="title" class="text-center text-uppercase"> Welcome to Main page</h1>
-</div>
-<div>	
-    <div class="container">
 
-        <div class="row mb-3">
-            <div class="col-2">
-                <label for="valueNewArticleId">Create</label>
+<body>
+    <div>
+        <h1 id="title" class="text-center text-uppercase"> Welcome to Main page</h1>
+    </div>
+    <div>
+        <div class="container">
+
+            <div class="row mb-3">
+                <div class="col-2">
+                    <label for="valueNewArticleId">Create</label>
+                </div>
+                <div class="col-4">
+                    <input id="valueNewArticleName" type="text" size="40" placeholder="name" class="form-control" />
+                </div>
+                <div class="col-4">
+                    <input id="valueNewArticleIdNumber" type="text" size="40" placeholder="ID-Card"
+                        class="form-control" />
+                </div>
+                <div class="col-4">
+                    <input id="valueNewArticleAddress" type="text" size="40" placeholder="Address"
+                        class="form-control" />
+                </div>
+                <div class="col-4">
+                    <input id="valueNewArticleDOB" type="text" size="40" placeholder="birth YYYY-MM-DD "
+                        class="form-control" />
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-primary" onclick="articleAdd()">Ok</button>
+                </div>
             </div>
-            <div class="col-4">
-                <input id="valueNewArticleName" type="text" size="40" placeholder="name" class="form-control"/>
-            </div>
-            <div class="col-4">
-                <input id="valueNewArticleIdNumber" type="text" size="40" placeholder="ID-Card" class="form-control"/>
-            </div>
-            <div class="col-4">
-                <input id="valueNewArticleAddress" type="text" size="40" placeholder="Address" class="form-control"/>
-            </div>
-            <div class="col-4">
-                <input id="valueNewArticleDOB" type="text" size="40" placeholder="birth " class="form-control"/>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-primary" onclick="articleAdd()">Ok</button>
+
+            <table id="tbData" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">name</th>
+                        <th scope="col">ID-Number</th>
+                        <th scope="col">address</th>
+                        <th scope="col">birth</th>
+                        <th scope="col">action</th>
+                    </tr>
+                </thead>
+                <tbody class="table table-hover" id="ajaxList">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <label>Tên</label>
+                        <input id="txtName" type="text" />
+
+                    </div>
+                    <div class="row">
+                        <label>id</label>
+                        <input id="txtIdCard" type="text" />
+                    </div>
+                    <div class="row">
+                        <label>địa chỉ</label>
+                        <input id="txtAddress" type="text" />
+                    </div>
+                    <div class="row">
+                        <label>ngày sinh</label>
+                        <input id="txtBirth" type="text" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-update">Save changes</button>
+                </div>
             </div>
         </div>
-
-        <table id= "tbData" class="table table-bordered">
-            <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">name</th>
-                <th scope="col">ID-Number</th>
-                <th scope="col">address</th>
-                <th scope="col">birth</th>
-                <th scope="col">action</th>
-            </tr>
-            </thead>
-            <tbody class="table table-hover" id="ajaxList">
-                
-            </tbody>
-        </table>
     </div>
-</div>
 
-<footer>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-            crossorigin="anonymous"></script>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script th:src="@{~/js/ajax.js}"></script>
+    <footer>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous">
+        </script>
 
-</footer>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script th:src="@{~/js/ajax.js}"></script>
+
+    </footer>
 </body>
+
 </html>
