@@ -48,3 +48,9 @@ Tự tạo dữ liệu dựa trên bảng trên và thực hiện các câu lệ
 2.6 Sắp xếp các quốc gia theo mật độ dân số theo thứ tự giảm dần bỏ qua các quốc gia có dân số bằng không.
 
 Demo sử dụng Transaction và việc chống Injection 
+
+## TEST 3:
+- 7 design pattern 
+
+## TEST 4:
+- demo Spring boot
