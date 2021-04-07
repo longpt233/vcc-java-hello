@@ -1,0 +1,56 @@
+# docker-compose v3+, condition as an option of depends_on has been removed.
+#  wait-for-it, dockerize, or wait-for
+
+version: '2.1'
+
+services:
+    #start ok mysql  
+    #definition  
+    mysql:
+      image: mysql:latest 
+      container_name: mysqlcontainer 
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: id_card
+# neu khong them user(doan la no se tu chay grant cho user ) thi ket noi bang root se khong dc ?
+        MYSQL_USER: user
+        MYSQL_PASSWORD: test
+      networks:
+        - service-mysql
+      ports:  
+        - "3307:3306"
+      healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 60s
+            retries: 100
+     
+    idservice:                        #it is just a name, which will be used only in this file.
+#      image: idservice               #name of the image after dockerfile executes
+      container_name: id-service-app  #name of the container created from docker image
+#      xong roi thi thoi khong can nua lay moi ten image kia thoi cx dc 
+      build:
+        context: .                          #docker file path (. means root directory)
+        dockerfile: Dockerfile              #docker file name
+      ports:
+        - "2021:2021"                       #docker containter port with your os port
+# neu co depend on thi no se doi chay len roi no moi restart 
+#      restart: always
+      depends_on:                           
+        mysql:                        #dependency name service
+          condition: service_healthy
+      networks:
+        - service-mysql
+# cai nay se duoc ghi de vao file appliaction.properties ?
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysqlcontainer:3306/id_card?useSSL=false&allowPublicKeyRetrieval=true
+        SPRING_DATASOURCE_USERNAME: user
+        SPRING_DATASOURCE_PASSWORD: test
+#volumes:
+#    mysql-database-data-volume:
+
+networks:
+  service-mysql:
+    driver: bridge
+      
+      
+      

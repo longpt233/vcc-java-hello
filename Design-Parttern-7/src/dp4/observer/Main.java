@@ -6,6 +6,7 @@ public class Main {
 		
 		// Create observable object(Newsletter)
 		Newsletter newsletter = new Newsletter();
+//		ABC abc = new ABC();
 		
 		// You probably will get the subscribers data from database
 		String subscribers[] = {"Mark", "Peter", "Alex"};
@@ -20,6 +21,8 @@ public class Main {
 			subscriber = new Subscriber(name, newsletter);
 		}
 		
+		Std aStd= new Std();
+		newsletter.addObserver(aStd);
 		// Whenever you create a new newsletter, 
 		// Subscribers will get notified
 		newsletter.create("This newsletter shall be sent to subscribers");
@@ -27,6 +30,13 @@ public class Main {
 		// You can also delete a subscriber from array of observers
 		newsletter.deleteObserver(subscriber);
 		
+//		
+//		Newsletter newsletter2= new Newsletter();
+//		
+//		newsletter2.addObserver(aStd);
+//		
+//		newsletter2.create("lettwe 2 create notify");
+//		
 	}
 
 }
